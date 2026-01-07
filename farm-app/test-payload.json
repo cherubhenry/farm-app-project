@@ -1,0 +1,14 @@
+{
+    "date": "2026-01-07",
+    "rooms": {
+        "Room 1": {
+            "feeds_eaten": 5,
+            "water_litres": 100,
+            "medicine_given": "Test medicine",
+            "eggs_produced": 150,
+            "cracked_eggs": 3,
+            "mortality_count": 1,
+            "miscellaneous": "Smoke test"
+        }
+    }
+}
