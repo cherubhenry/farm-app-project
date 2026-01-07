@@ -51,7 +51,7 @@ export async function POST(request: Request) {
                 {
                     ok: false,
                     error: "Validation failed",
-                    details: error.errors,
+                    details: (error as any).errors,
                 },
                 { status: 400 }
             );
