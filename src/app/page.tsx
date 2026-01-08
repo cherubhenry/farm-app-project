@@ -13,12 +13,20 @@ export default function HomePage() {
           <h1 className="text-3xl font-bold text-gray-900 mb-4">
             Record Daily Production
           </h1>
-          <Link
-            href="/init"
-            className="inline-block bg-gray-600 hover:bg-gray-700 text-white px-6 py-2 rounded-lg transition-colors"
-          >
-            Initialize Farm Rooms
-          </Link>
+          <div className="flex flex-wrap gap-4">
+            <Link
+              href="/init"
+              className="inline-block bg-gray-600 hover:bg-gray-700 text-white px-6 py-2 rounded-lg transition-colors"
+            >
+              Initialize Farm Rooms
+            </Link>
+            <Link
+              href="/summary"
+              className="inline-block bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg transition-colors shadow-md"
+            >
+              📊 View Farm Summary
+            </Link>
+          </div>
         </div>
 
         {/* Main Form */}

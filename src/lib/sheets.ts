@@ -62,3 +62,61 @@ export async function checkDateExists(tabName: string, dateToCheck: string): Pro
         throw error;
     }
 }
+/**
+ * Fetches summary data for a specific date from all room and store tabs.
+ */
+export async function getSummaryForDate(date: string) {
+    try {
+        const sheets = getSheetsClient();
+        const spreadsheetId = getGoogleSheetId();
+        const tabs = ["Room 1", "Room 2", "Room 3", "Room 4", "Room 5", "Room 6", "Egg Store", "Feed Store"];
+
+        // Define ranges for each tab (A:I covers most, adjust if needed)
+        const ranges = tabs.map(tab => `${tab}!A:I`);
+
+        const response = await sheets.spreadsheets.values.batchGet({
+            spreadsheetId,
+            ranges,
+        });
+
+        const valueRanges = response.data.valueRanges;
+        if (!valueRanges) return null;
+
+        const summary: any = {
+            date,
+            rooms: {},
+            eggStore: null,
+            feedStore: null,
+        };
+
+        tabs.forEach((tab, index) => {
+            const rows = valueRanges[index].values;
+            if (!rows || rows.length < 2) return; // Need at least header + 1 row
+
+            // Find row for date (Column B is index 1)
+            const row = rows.find(r => r[1] === date);
+            if (!row) return;
+
+            if (tab.startsWith("Room")) {
+                summary.rooms[tab] = {
+                    feeds_eaten: Number(row[2]) || 0,
+                    eggs_produced: Number(row[5]) || 0,
+                    cracked_eggs: Number(row[6]) || 0,
+                };
+            } else if (tab === "Egg Store") {
+                summary.eggStore = {
+                    eggs_in_store: Number(row[2]) || 0,
+                };
+            } else if (tab === "Feed Store") {
+                summary.feedStore = {
+                    feed_bags_in_store: Number(row[2]) || 0,
+                };
+            }
+        });
+
+        return summary;
+    } catch (error) {
+        console.error("Error fetching summary data:", error);
+        throw error;
+    }
+}
