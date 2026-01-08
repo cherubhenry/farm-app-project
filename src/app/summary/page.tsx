@@ -82,25 +82,25 @@ export default function SummaryPage() {
                             </div>
 
                             <div className="bg-white p-5 md:p-6 rounded-2xl shadow-sm border border-gray-100">
-                                <p className="text-gray-400 font-bold uppercase tracking-wider text-[10px] md:text-xs">Eggs in Store</p>
+                                <p className="text-gray-400 font-bold uppercase tracking-wider text-[10px] md:text-xs">Eggs in Store (Prev Day)</p>
                                 <div className="mt-2 flex items-baseline flex-wrap gap-x-2 gap-y-0 text-gray-900">
-                                    <span className="text-3xl md:text-4xl font-black">{Math.floor((data?.eggStore?.eggs_in_store || 0) / 30)}</span>
+                                    <span className="text-3xl md:text-4xl font-black">{Math.floor((data?.prevDayStock?.eggs || 0) / 30)}</span>
                                     <span className="text-gray-500 font-medium text-sm md:text-base">Crates</span>
-                                    <span className="text-2xl md:text-2xl font-black ml-1">{(data?.eggStore?.eggs_in_store || 0) % 30}</span>
+                                    <span className="text-2xl md:text-2xl font-black ml-1">{(data?.prevDayStock?.eggs || 0) % 30}</span>
                                     <span className="text-gray-500 font-medium text-xs md:text-sm">Pieces</span>
                                 </div>
-                                <p className="mt-4 text-[10px] text-gray-400">Evening checkout record</p>
+                                <p className="mt-4 text-[10px] text-gray-400">Closing balance from yesterday</p>
                             </div>
 
                             <div className="bg-white p-5 md:p-6 rounded-2xl shadow-sm border border-gray-100">
-                                <p className="text-gray-400 font-bold uppercase tracking-wider text-[10px] md:text-xs">Feed Balanced Stock</p>
+                                <p className="text-gray-400 font-bold uppercase tracking-wider text-[10px] md:text-xs">Feed Drawdown Balance</p>
                                 <div className="mt-2 flex items-baseline gap-2">
                                     <span className={`text-3xl md:text-4xl font-black ${data?.feed_in_store_adjusted < 5 ? 'text-red-600' : 'text-green-600'}`}>
                                         {data?.feed_in_store_adjusted || 0}
                                     </span>
                                     <span className="text-gray-500 font-medium text-sm md:text-base">Bags</span>
                                 </div>
-                                <p className="mt-4 text-[10px] text-gray-400">Adjusted for today's usage</p>
+                                <p className="mt-4 text-[10px] text-gray-400">Yesterday's stock - today's usage</p>
                             </div>
 
                             <div className={`p-5 md:p-6 rounded-2xl shadow-sm border border-gray-100 ${data?.total_mortality > 0 ? 'bg-red-50/50 border-red-100' : 'bg-white'}`}>
@@ -194,18 +194,18 @@ export default function SummaryPage() {
                         {/* Additional Info Row */}
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pb-20">
                             <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-                                <h3 className="font-bold text-gray-900 mb-4 border-b pb-2">Feed Calculation Logic</h3>
+                                <h3 className="font-bold text-gray-900 mb-4 border-b pb-2">Feed Drawdown Logic</h3>
                                 <div className="space-y-3">
                                     <div className="flex justify-between text-sm">
-                                        <span className="text-gray-500 font-medium">Registered Store Stock:</span>
-                                        <span className="font-bold text-gray-900">{data?.feedStore?.feed_bags_in_store || 0} bags</span>
+                                        <span className="text-gray-500 font-medium">Yesterday's Closing Stock:</span>
+                                        <span className="font-bold text-gray-900">{data?.prevDayStock?.feed || 0} bags</span>
                                     </div>
                                     <div className="flex justify-between text-sm text-red-600">
-                                        <span className="font-medium">Less Total Consumption:</span>
+                                        <span className="font-medium">Less Today's Consumption:</span>
                                         <span className="font-bold">-{data?.total_feeds_eaten || 0} bags</span>
                                     </div>
                                     <div className="pt-2 border-t border-dashed flex justify-between font-black text-gray-900">
-                                        <span>Theoretical Balance:</span>
+                                        <span>Current Balance:</span>
                                         <span className="text-lg underline decoration-green-500 decoration-4 underline-offset-4">
                                             {data?.feed_in_store_adjusted || 0} bags
                                         </span>

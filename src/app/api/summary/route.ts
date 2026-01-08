@@ -16,6 +16,13 @@ export async function GET(request: Request) {
 
         const rawData = await getSummaryForDate(date);
 
+        // Fetch Previous Day Data for stock context
+        const requestedDate = new Date(date);
+        const prevDateObj = new Date(requestedDate);
+        prevDateObj.setDate(prevDateObj.getDate() - 1);
+        const prevDate = prevDateObj.toISOString().split('T')[0];
+        const prevData = await getSummaryForDate(prevDate);
+
         if (!rawData) {
             return NextResponse.json({
                 ok: true,
@@ -25,6 +32,10 @@ export async function GET(request: Request) {
                     rooms: {},
                     eggStore: null,
                     feedStore: null,
+                    prevDayStock: {
+                        eggs: prevData?.eggStore?.eggs_in_store || 0,
+                        feed: prevData?.feedStore?.feed_bags_in_store || 0,
+                    }
                 }
             });
         }
@@ -57,10 +68,11 @@ export async function GET(request: Request) {
             };
         });
 
-        // Calculate Adjusted Feed
-        // feed_in_store_adjusted = raw_feed_store - (sum of feeds eaten in rooms)
-        const rawFeedStock = rawData.feedStore?.feed_bags_in_store || 0;
-        const feed_in_store_adjusted = rawFeedStock - total_feeds_eaten;
+        // Calculate Adjusted Feed based on Previous Day Stock
+        // User Requirement: "Feed in store as stated ealier for any current day should show the value for the previous day, 
+        // and as feed are given to the birds it should be subtracted from what we had the previous day"
+        const prevFeedStock = prevData?.feedStore?.feed_bags_in_store || 0;
+        const feed_in_store_adjusted = prevFeedStock - total_feeds_eaten;
 
         const summary = {
             date,
@@ -75,7 +87,11 @@ export async function GET(request: Request) {
             feed_in_store_adjusted,
             rooms: roomDetails,
             eggStore: rawData.eggStore,
-            feedStore: rawData.feedStore, // raw value if needed
+            feedStore: rawData.feedStore, // Today's actual snapshot if needed
+            prevDayStock: {
+                eggs: prevData?.eggStore?.eggs_in_store || 0,
+                feed: prevFeedStock
+            }
         };
 
         return NextResponse.json({ ok: true, summary });

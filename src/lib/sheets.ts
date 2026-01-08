@@ -64,6 +64,7 @@ export async function checkDateExists(tabName: string, dateToCheck: string): Pro
 }
 /**
  * Fetches summary data for a specific date from all room and store tabs.
+ * Aggregates multiple entries for the same date.
  */
 export async function getSummaryForDate(date: string) {
     try {
@@ -93,24 +94,39 @@ export async function getSummaryForDate(date: string) {
             const rows = valueRanges[index].values;
             if (!rows || rows.length < 2) return; // Need at least header + 1 row
 
-            // Find row for date (Column B is index 1)
-            const row = rows.find(r => r[1] === date);
-            if (!row) return;
+            // Find all rows for date (Column B is index 1)
+            const entries = rows.filter(r => r[1] === date);
+            if (entries.length === 0) return;
 
             if (tab.startsWith("Room")) {
-                summary.rooms[tab] = {
-                    feeds_eaten: Number(row[2]) || 0,
-                    eggs_produced: Number(row[5]) || 0,
-                    cracked_eggs: Number(row[6]) || 0,
-                    mortality_count: Number(row[7]) || 0,
+                // Initialize room data
+                const roomData = {
+                    feeds_eaten: 0,
+                    eggs_produced: 0,
+                    cracked_eggs: 0,
+                    mortality_count: 0,
                 };
+
+                // Aggregate values
+                entries.forEach(row => {
+                    roomData.feeds_eaten += Number(row[2]) || 0;
+                    roomData.eggs_produced += Number(row[5]) || 0;
+                    roomData.cracked_eggs += Number(row[6]) || 0;
+                    roomData.mortality_count += Number(row[7]) || 0;
+                });
+
+                summary.rooms[tab] = roomData;
             } else if (tab === "Egg Store") {
+                // For store snapshots, we take the LAST entry of the day as the "Final" count
+                const lastEntry = entries[entries.length - 1];
                 summary.eggStore = {
-                    eggs_in_store: Number(row[2]) || 0,
+                    eggs_in_store: Number(lastEntry[2]) || 0,
                 };
             } else if (tab === "Feed Store") {
+                // For store snapshots, we take the LAST entry of the day as the "Final" count
+                const lastEntry = entries[entries.length - 1];
                 summary.feedStore = {
-                    feed_bags_in_store: Number(row[2]) || 0,
+                    feed_bags_in_store: Number(lastEntry[2]) || 0,
                 };
             }
         });
