@@ -101,7 +101,7 @@ export default function InitRoomsForm() {
                     type="number"
                     min="0"
                     disabled={!isUnlocked}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 disabled:bg-gray-100 disabled:text-gray-500"
+                    className="w-full px-3 py-2 border-2 border-gray-400 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 disabled:bg-gray-100 disabled:text-gray-500 bg-white text-black font-bold"
                     value={rooms[roomName]?.birds_count || ''}
                     onChange={(e) => handleRoomChange(roomName, 'birds_count', e.target.value)}
                 />
@@ -133,7 +133,7 @@ export default function InitRoomsForm() {
                 <textarea
                     rows={2}
                     disabled={!isUnlocked}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 disabled:bg-gray-100 disabled:text-gray-500"
+                    className="w-full px-3 py-2 border-2 border-gray-400 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 disabled:bg-gray-100 disabled:text-gray-500 bg-white text-black font-bold"
                     value={rooms[roomName]?.miscellaneous || ''}
                     onChange={(e) => handleRoomChange(roomName, 'miscellaneous', e.target.value)}
                 />
@@ -151,7 +151,7 @@ export default function InitRoomsForm() {
                         type="date"
                         required
                         disabled={!isUnlocked}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 disabled:bg-gray-100 disabled:text-gray-500"
+                        className="w-full px-3 py-2 border-2 border-gray-400 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 disabled:bg-gray-100 disabled:text-gray-500 bg-white text-black font-bold"
                         value={date}
                         onChange={(e) => setDate(e.target.value)}
                     />
@@ -164,7 +164,7 @@ export default function InitRoomsForm() {
                         type="password"
                         required
                         placeholder="Enter code to unlock editing"
-                        className={`w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${isUnlocked ? 'border-green-500 ring-green-500' : 'border-gray-300'}`}
+                        className={`w-full px-3 py-2 border-2 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white text-black font-bold ${isUnlocked ? 'border-green-500 ring-green-500' : 'border-gray-400'}`}
                         value={passcode}
                         onChange={(e) => setPasscode(e.target.value)}
                     />

@@ -91,7 +91,7 @@ export default function SingleRoomForm({ roomName, date }: SingleRoomFormProps) 
                         <input
                             type="number"
                             min="0"
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                            className="w-full px-3 py-2 border-2 border-gray-400 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white text-black font-bold"
                             value={formData.feeds_eaten || ''}
                             onChange={(e) => handleChange('feeds_eaten', e.target.value)}
                         />
@@ -101,7 +101,7 @@ export default function SingleRoomForm({ roomName, date }: SingleRoomFormProps) 
                         <input
                             type="number"
                             min="0"
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                            className="w-full px-3 py-2 border-2 border-gray-400 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white text-black font-bold"
                             value={formData.water_litres || ''}
                             onChange={(e) => handleChange('water_litres', e.target.value)}
                         />
@@ -126,7 +126,7 @@ export default function SingleRoomForm({ roomName, date }: SingleRoomFormProps) 
                                     type="number"
                                     min="0"
                                     placeholder="Crates"
-                                    className="w-full px-3 py-1.5 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+                                    className="w-full px-3 py-2 border-2 border-gray-400 rounded-md focus:ring-2 focus:ring-blue-500 bg-white text-black font-bold"
                                     value={formData.eggs_produced_crates || ''}
                                     onChange={(e) => handleChange('eggs_produced_crates', e.target.value)}
                                 />
@@ -137,7 +137,7 @@ export default function SingleRoomForm({ roomName, date }: SingleRoomFormProps) 
                                     type="number"
                                     min="0"
                                     placeholder="Pieces"
-                                    className="w-full px-3 py-1.5 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+                                    className="w-full px-3 py-2 border-2 border-gray-400 rounded-md focus:ring-2 focus:ring-blue-500 bg-white text-black font-bold"
                                     value={formData.eggs_produced_pieces || ''}
                                     onChange={(e) => handleChange('eggs_produced_pieces', e.target.value)}
                                 />
@@ -155,7 +155,7 @@ export default function SingleRoomForm({ roomName, date }: SingleRoomFormProps) 
                                     type="number"
                                     min="0"
                                     placeholder="Crates"
-                                    className="w-full px-3 py-1.5 border border-gray-300 rounded-md focus:ring-2 focus:ring-red-500"
+                                    className="w-full px-3 py-2 border-2 border-gray-400 rounded-md focus:ring-2 focus:ring-red-500 bg-white text-black font-bold"
                                     value={formData.cracked_eggs_crates || ''}
                                     onChange={(e) => handleChange('cracked_eggs_crates', e.target.value)}
                                 />
@@ -166,7 +166,7 @@ export default function SingleRoomForm({ roomName, date }: SingleRoomFormProps) 
                                     type="number"
                                     min="0"
                                     placeholder="Pieces"
-                                    className="w-full px-3 py-1.5 border border-gray-300 rounded-md focus:ring-2 focus:ring-red-500"
+                                    className="w-full px-3 py-2 border-2 border-gray-400 rounded-md focus:ring-2 focus:ring-red-500 bg-white text-black font-bold"
                                     value={formData.cracked_eggs_pieces || ''}
                                     onChange={(e) => handleChange('cracked_eggs_pieces', e.target.value)}
                                 />
@@ -179,7 +179,7 @@ export default function SingleRoomForm({ roomName, date }: SingleRoomFormProps) 
                         <input
                             type="number"
                             min="0"
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                            className="w-full px-3 py-2 border-2 border-gray-400 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white text-black font-bold"
                             value={formData.mortality_count || ''}
                             onChange={(e) => handleChange('mortality_count', e.target.value)}
                         />
@@ -188,7 +188,7 @@ export default function SingleRoomForm({ roomName, date }: SingleRoomFormProps) 
                         <label className="block text-sm font-medium text-gray-700 mb-1">Miscellaneous Notes</label>
                         <textarea
                             rows={2}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                            className="w-full px-3 py-2 border-2 border-gray-400 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white text-black font-bold"
                             value={formData.miscellaneous || ''}
                             onChange={(e) => handleChange('miscellaneous', e.target.value)}
                         />

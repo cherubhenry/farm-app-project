@@ -147,7 +147,7 @@ export default function StoreCareForm({ date }: StoreCareFormProps) {
                                     type="number"
                                     min="0"
                                     placeholder="Crates"
-                                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+                                    className="w-full px-3 py-2 border-2 border-gray-400 rounded-md focus:ring-2 focus:ring-blue-500 bg-white text-black font-bold"
                                     value={eggStore.in_store_crates || ''}
                                     onChange={(e) => setEggStore({ ...eggStore, in_store_crates: e.target.value })}
                                 />
@@ -204,7 +204,7 @@ export default function StoreCareForm({ date }: StoreCareFormProps) {
                                         <input
                                             type="number"
                                             min="0"
-                                            className="w-full px-3 py-2 border border-orange-200 rounded-md focus:ring-2 focus:ring-orange-500"
+                                            className="w-full px-3 py-2 border-2 border-orange-400 rounded-md focus:ring-2 focus:ring-orange-500 bg-white text-black font-bold"
                                             value={eggStore.purchased_crates || ''}
                                             onChange={(e) => setEggStore({ ...eggStore, purchased_crates: e.target.value })}
                                         />
@@ -229,7 +229,7 @@ export default function StoreCareForm({ date }: StoreCareFormProps) {
                                         <input
                                             type="number"
                                             min="0"
-                                            className="w-full px-3 py-2 border border-red-200 rounded-md focus:ring-2 focus:ring-red-500"
+                                            className="w-full px-3 py-2 border-2 border-red-400 rounded-md focus:ring-2 focus:ring-red-500 bg-white text-black font-bold"
                                             value={eggStore.cracked_crates || ''}
                                             onChange={(e) => setEggStore({ ...eggStore, cracked_crates: e.target.value })}
                                         />
@@ -268,7 +268,7 @@ export default function StoreCareForm({ date }: StoreCareFormProps) {
                         <input
                             type="number"
                             min="0"
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                            className="w-full px-3 py-2 border-2 border-gray-400 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white text-black font-bold"
                             value={feedStore.feed_bags_in_store || ''}
                             onChange={(e) => setFeedStore({ ...feedStore, feed_bags_in_store: e.target.value })}
                         />
@@ -307,7 +307,7 @@ export default function StoreCareForm({ date }: StoreCareFormProps) {
                                 type="number"
                                 min="0"
                                 required
-                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                className="w-full px-3 py-2 border-2 border-gray-400 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white text-black font-bold"
                                 value={feedStore.bags_brought_today || ''}
                                 onChange={(e) => setFeedStore({ ...feedStore, bags_brought_today: e.target.value })}
                             />
@@ -333,7 +333,7 @@ export default function StoreCareForm({ date }: StoreCareFormProps) {
                         <input
                             type="number"
                             min="0"
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                            className="w-full px-3 py-2 border-2 border-gray-400 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white text-black font-bold"
                             value={sickRoom.sick_birds_count || ''}
                             onChange={(e) => setSickRoom({ ...sickRoom, sick_birds_count: e.target.value })}
                         />

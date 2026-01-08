@@ -115,37 +115,39 @@ export default function SummaryPage() {
                             </div>
                         </div>
 
-                        {/* Room Details Table */}
+                        {/* Room Details Table - Desktop */}
                         <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
                             <div className="p-4 md:p-6 border-b border-gray-50 flex justify-between items-center bg-gray-50/30">
                                 <h3 className="font-bold text-gray-900 text-sm md:text-lg">Room-by-Room Details</h3>
                                 <span className="px-2 md:px-3 py-1 bg-white border border-gray-200 text-gray-500 rounded-full text-[9px] md:text-xs font-bold uppercase">Daily breakdown</span>
                             </div>
-                            <div className="overflow-x-auto">
-                                <table className="w-full text-left min-w-[600px] md:min-w-full">
+
+                            {/* Desktop View (Table) */}
+                            <div className="hidden md:block overflow-x-auto">
+                                <table className="w-full text-left">
                                     <thead>
                                         <tr className="bg-white border-b border-gray-50">
-                                            <th className="px-4 md:px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Room</th>
-                                            <th className="px-4 md:px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest text-right">Production (Crates)</th>
-                                            <th className="px-4 md:px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest text-right">Production (Pieces)</th>
-                                            <th className="px-4 md:px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest text-right">Feed Eaten</th>
-                                            <th className="px-4 md:px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest text-right">Mortality</th>
+                                            <th className="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Room</th>
+                                            <th className="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest text-right">Production (Crates)</th>
+                                            <th className="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest text-right">Production (Pieces)</th>
+                                            <th className="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest text-right">Feed Eaten</th>
+                                            <th className="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest text-right">Mortality</th>
                                         </tr>
                                     </thead>
                                     <tbody className="divide-y divide-gray-50">
                                         {["Room 1", "Room 2", "Room 3", "Room 4", "Room 5", "Room 6"].map(room => (
                                             <tr key={room} className="hover:bg-gray-50/50 transition-colors">
-                                                <td className="px-4 md:px-6 py-4 font-bold text-gray-900 text-sm md:text-base">{room}</td>
-                                                <td className="px-4 md:px-6 py-4 text-right font-semibold text-blue-600 text-sm md:text-base">
+                                                <td className="px-6 py-4 font-bold text-gray-900">{room}</td>
+                                                <td className="px-6 py-4 text-right font-semibold text-blue-600">
                                                     {data?.rooms[room]?.eggs_produced_display?.crates || 0}
                                                 </td>
-                                                <td className="px-4 md:px-6 py-4 text-right font-medium text-blue-400 text-sm md:text-base">
+                                                <td className="px-6 py-4 text-right font-medium text-blue-400">
                                                     {data?.rooms[room]?.eggs_produced_display?.pieces || 0}
                                                 </td>
-                                                <td className="px-4 md:px-6 py-4 text-right text-gray-700 font-medium text-sm md:text-base">
+                                                <td className="px-6 py-4 text-right text-gray-700 font-medium">
                                                     {data?.rooms[room]?.feeds_eaten || 0}<span className="text-[10px] text-gray-400 ml-1">bags</span>
                                                 </td>
-                                                <td className="px-4 md:px-6 py-4 text-right font-bold text-sm md:text-base">
+                                                <td className="px-6 py-4 text-right font-bold">
                                                     <span className={data?.rooms[room]?.mortality_count > 0 ? 'text-red-600 bg-red-50 px-2 py-1 rounded' : 'text-gray-400'}>
                                                         {data?.rooms[room]?.mortality_count || 0}
                                                     </span>
@@ -154,6 +156,38 @@ export default function SummaryPage() {
                                         ))}
                                     </tbody>
                                 </table>
+                            </div>
+
+                            {/* Mobile View (Cards) */}
+                            <div className="md:hidden divide-y divide-gray-100">
+                                {["Room 1", "Room 2", "Room 3", "Room 4", "Room 5", "Room 6"].map(room => (
+                                    <div key={room} className="p-4 space-y-3">
+                                        <div className="flex justify-between items-center">
+                                            <span className="font-black text-gray-900 text-lg">{room}</span>
+                                            <span className={data?.rooms[room]?.mortality_count > 0 ? 'text-red-600 bg-red-50 px-2 py-1 rounded text-xs font-bold' : 'text-gray-400 text-xs'}>
+                                                {data?.rooms[room]?.mortality_count || 0} Mortality
+                                            </span>
+                                        </div>
+                                        <div className="grid grid-cols-2 gap-3">
+                                            <div className="bg-blue-50/50 p-3 rounded-xl border border-blue-100">
+                                                <p className="text-[10px] text-blue-400 uppercase font-bold">Production</p>
+                                                <div className="flex items-baseline gap-1">
+                                                    <span className="text-blue-600 font-black text-xl">{data?.rooms[room]?.eggs_produced_display?.crates || 0}</span>
+                                                    <span className="text-blue-400 text-[10px] font-bold">C</span>
+                                                    <span className="text-blue-600 font-black text-lg ml-1">{data?.rooms[room]?.eggs_produced_display?.pieces || 0}</span>
+                                                    <span className="text-blue-400 text-[10px] font-bold">P</span>
+                                                </div>
+                                            </div>
+                                            <div className="bg-gray-50/50 p-3 rounded-xl border border-gray-100">
+                                                <p className="text-[10px] text-gray-400 uppercase font-bold">Feed Eaten</p>
+                                                <div className="flex items-baseline gap-1">
+                                                    <span className="text-gray-900 font-black text-xl">{data?.rooms[room]?.feeds_eaten || 0}</span>
+                                                    <span className="text-gray-400 text-[10px] font-bold">bags</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))}
                             </div>
                         </div>
 

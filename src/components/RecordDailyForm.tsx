@@ -19,7 +19,7 @@ export default function RecordDailyForm() {
                 <input
                     type="date"
                     required
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    className="w-full px-3 py-2 border-2 border-gray-400 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white text-black font-bold"
                     value={date}
                     onChange={(e) => setDate(e.target.value)}
                 />
