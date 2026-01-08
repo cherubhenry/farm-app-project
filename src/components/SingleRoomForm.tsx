@@ -24,17 +24,33 @@ export default function SingleRoomForm({ roomName, date }: SingleRoomFormProps) 
         try {
             // Process data: strings to numbers where needed
             const processedData: any = {};
-            Object.entries(formData).forEach(([key, value]) => {
-                if (value === '' || value === undefined) return;
-                if (['feeds_eaten', 'water_litres', 'eggs_produced', 'cracked_eggs', 'mortality_count'].includes(key)) {
-                    processedData[key] = Number(value);
-                } else {
-                    processedData[key] = value;
+
+            // Handle regular fields
+            ['feeds_eaten', 'water_litres', 'mortality_count'].forEach(key => {
+                if (formData[key] !== undefined && formData[key] !== '') {
+                    processedData[key] = Number(formData[key]);
                 }
             });
 
+            if (formData.medicine_given) processedData.medicine_given = formData.medicine_given;
+            if (formData.miscellaneous) processedData.miscellaneous = formData.miscellaneous;
+
+            // Handle Egg Production (Crates + Pieces)
+            const prodCrates = Number(formData.eggs_produced_crates || 0);
+            const prodPieces = Number(formData.eggs_produced_pieces || 0);
+            if (formData.eggs_produced_crates || formData.eggs_produced_pieces) {
+                processedData.eggs_produced = (prodCrates * 30) + prodPieces;
+            }
+
+            // Handle Cracked Eggs (Crates + Pieces)
+            const crackedCrates = Number(formData.cracked_eggs_crates || 0);
+            const crackedPieces = Number(formData.cracked_eggs_pieces || 0);
+            if (formData.cracked_eggs_crates || formData.cracked_eggs_pieces) {
+                processedData.cracked_eggs = (crackedCrates * 30) + crackedPieces;
+            }
+
             if (Object.keys(processedData).length === 0) {
-                setMessage({ type: 'error', text: '❌ No data allowed to be empty' });
+                setMessage({ type: 'error', text: '❌ No data provided' });
                 setIsSubmitting(false);
                 return;
             }
@@ -99,26 +115,65 @@ export default function SingleRoomForm({ roomName, date }: SingleRoomFormProps) 
                             onChange={(e) => handleChange('medicine_given', e.target.value)}
                         />
                     </div>
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Eggs Produced</label>
-                        <input
-                            type="number"
-                            min="0"
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                            value={formData.eggs_produced || ''}
-                            onChange={(e) => handleChange('eggs_produced', e.target.value)}
-                        />
+
+                    {/* Eggs Produced */}
+                    <div className="border border-gray-100 p-2 rounded-lg bg-blue-50/30">
+                        <label className="block text-sm font-bold text-blue-900 mb-1">Eggs Produced</label>
+                        <div className="flex gap-2">
+                            <div className="flex-1">
+                                <span className="text-[10px] text-gray-500 uppercase font-bold">Crates (30)</span>
+                                <input
+                                    type="number"
+                                    min="0"
+                                    placeholder="Crates"
+                                    className="w-full px-3 py-1.5 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+                                    value={formData.eggs_produced_crates || ''}
+                                    onChange={(e) => handleChange('eggs_produced_crates', e.target.value)}
+                                />
+                            </div>
+                            <div className="flex-1">
+                                <span className="text-[10px] text-gray-500 uppercase font-bold">Egg Pieces</span>
+                                <input
+                                    type="number"
+                                    min="0"
+                                    placeholder="Pieces"
+                                    className="w-full px-3 py-1.5 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+                                    value={formData.eggs_produced_pieces || ''}
+                                    onChange={(e) => handleChange('eggs_produced_pieces', e.target.value)}
+                                />
+                            </div>
+                        </div>
                     </div>
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Cracked Eggs</label>
-                        <input
-                            type="number"
-                            min="0"
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                            value={formData.cracked_eggs || ''}
-                            onChange={(e) => handleChange('cracked_eggs', e.target.value)}
-                        />
+
+                    {/* Cracked Eggs */}
+                    <div className="border border-gray-100 p-2 rounded-lg bg-red-50/30">
+                        <label className="block text-sm font-bold text-red-900 mb-1">Cracked Eggs</label>
+                        <div className="flex gap-2">
+                            <div className="flex-1">
+                                <span className="text-[10px] text-gray-500 uppercase font-bold">Crates (30)</span>
+                                <input
+                                    type="number"
+                                    min="0"
+                                    placeholder="Crates"
+                                    className="w-full px-3 py-1.5 border border-gray-300 rounded-md focus:ring-2 focus:ring-red-500"
+                                    value={formData.cracked_eggs_crates || ''}
+                                    onChange={(e) => handleChange('cracked_eggs_crates', e.target.value)}
+                                />
+                            </div>
+                            <div className="flex-1">
+                                <span className="text-[10px] text-gray-500 uppercase font-bold">Egg Pieces</span>
+                                <input
+                                    type="number"
+                                    min="0"
+                                    placeholder="Pieces"
+                                    className="w-full px-3 py-1.5 border border-gray-300 rounded-md focus:ring-2 focus:ring-red-500"
+                                    value={formData.cracked_eggs_pieces || ''}
+                                    onChange={(e) => handleChange('cracked_eggs_pieces', e.target.value)}
+                                />
+                            </div>
+                        </div>
                     </div>
+
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">Mortality Count</label>
                         <input

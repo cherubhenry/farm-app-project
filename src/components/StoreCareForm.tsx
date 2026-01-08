@@ -45,12 +45,24 @@ export default function StoreCareForm({ date }: StoreCareFormProps) {
         try {
             // Process egg store
             let processedEggStore = undefined;
-            if (Object.values(eggStore).some(v => v !== undefined && v !== '')) {
+            const hasEggData = Object.values(eggStore).some(v => v !== undefined && v !== '');
+
+            if (hasEggData) {
+                // Combine Crates/Pieces
+                const inStoreCrates = Number(eggStore.in_store_crates || 0);
+                const inStorePieces = Number(eggStore.in_store_pieces || 0);
+
+                const purchasedCrates = Number(eggStore.purchased_crates || 0);
+                const purchasedPieces = Number(eggStore.purchased_pieces || 0);
+
+                const crackedCrates = Number(eggStore.cracked_crates || 0);
+                const crackedPieces = Number(eggStore.cracked_pieces || 0);
+
                 processedEggStore = {
-                    eggs_in_store_today: eggStore.eggs_in_store_today ? Number(eggStore.eggs_in_store_today) : undefined,
+                    eggs_in_store_today: (inStoreCrates * 30) + inStorePieces,
                     were_eggs_purchased: eggStore.were_eggs_purchased === 'true',
-                    purchased_count: eggStore.purchased_count ? Number(eggStore.purchased_count) : undefined,
-                    cracked_eggs_purchased: eggStore.cracked_eggs_purchased ? Number(eggStore.cracked_eggs_purchased) : undefined,
+                    purchased_count: eggStore.were_eggs_purchased === 'true' ? (purchasedCrates * 30) + purchasedPieces : undefined,
+                    cracked_eggs_purchased: eggStore.were_eggs_purchased === 'true' ? (crackedCrates * 30) + crackedPieces : undefined,
                     miscellaneous: eggStore.miscellaneous || undefined,
                 };
             }
@@ -124,17 +136,36 @@ export default function StoreCareForm({ date }: StoreCareFormProps) {
 
             {/* Egg Store */}
             <RoomAccordion title="Egg Store">
-                <div className="space-y-4">
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Eggs in Store Today</label>
-                        <input
-                            type="number"
-                            min="0"
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                            value={eggStore.eggs_in_store_today || ''}
-                            onChange={(e) => setEggStore({ ...eggStore, eggs_in_store_today: e.target.value })}
-                        />
+                <div className="space-y-6">
+                    {/* Eggs in Store */}
+                    <div className="border-b pb-4">
+                        <label className="block text-sm font-bold text-gray-700 mb-2">Total Eggs in Store Today</label>
+                        <div className="flex gap-4">
+                            <div className="flex-1">
+                                <span className="text-[10px] text-gray-500 uppercase font-bold">Crates (30)</span>
+                                <input
+                                    type="number"
+                                    min="0"
+                                    placeholder="Crates"
+                                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+                                    value={eggStore.in_store_crates || ''}
+                                    onChange={(e) => setEggStore({ ...eggStore, in_store_crates: e.target.value })}
+                                />
+                            </div>
+                            <div className="flex-1">
+                                <span className="text-[10px] text-gray-500 uppercase font-bold">Egg Pieces</span>
+                                <input
+                                    type="number"
+                                    min="0"
+                                    placeholder="Pieces"
+                                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+                                    value={eggStore.in_store_pieces || ''}
+                                    onChange={(e) => setEggStore({ ...eggStore, in_store_pieces: e.target.value })}
+                                />
+                            </div>
+                        </div>
                     </div>
+
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2">Were eggs purchased today?</label>
                         <div className="flex gap-4">
@@ -162,28 +193,58 @@ export default function StoreCareForm({ date }: StoreCareFormProps) {
                             </label>
                         </div>
                     </div>
+
                     {eggStore.were_eggs_purchased === 'true' && (
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="bg-orange-50/50 p-4 rounded-lg space-y-4">
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">How many eggs purchased?</label>
-                                <input
-                                    type="number"
-                                    min="0"
-                                    required
-                                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                                    value={eggStore.purchased_count || ''}
-                                    onChange={(e) => setEggStore({ ...eggStore, purchased_count: e.target.value })}
-                                />
+                                <label className="block text-sm font-bold text-orange-900 mb-2">How many eggs purchased?</label>
+                                <div className="flex gap-4">
+                                    <div className="flex-1">
+                                        <span className="text-[10px] text-orange-700 uppercase font-bold">Crates (30)</span>
+                                        <input
+                                            type="number"
+                                            min="0"
+                                            className="w-full px-3 py-2 border border-orange-200 rounded-md focus:ring-2 focus:ring-orange-500"
+                                            value={eggStore.purchased_crates || ''}
+                                            onChange={(e) => setEggStore({ ...eggStore, purchased_crates: e.target.value })}
+                                        />
+                                    </div>
+                                    <div className="flex-1">
+                                        <span className="text-[10px] text-orange-700 uppercase font-bold">Egg Pieces</span>
+                                        <input
+                                            type="number"
+                                            min="0"
+                                            className="w-full px-3 py-2 border border-orange-200 rounded-md focus:ring-2 focus:ring-orange-500"
+                                            value={eggStore.purchased_pieces || ''}
+                                            onChange={(e) => setEggStore({ ...eggStore, purchased_pieces: e.target.value })}
+                                        />
+                                    </div>
+                                </div>
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">How many cracked eggs purchased?</label>
-                                <input
-                                    type="number"
-                                    min="0"
-                                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                                    value={eggStore.cracked_eggs_purchased || ''}
-                                    onChange={(e) => setEggStore({ ...eggStore, cracked_eggs_purchased: e.target.value })}
-                                />
+                                <label className="block text-sm font-bold text-red-900 mb-2">How many cracked eggs purchased?</label>
+                                <div className="flex gap-4">
+                                    <div className="flex-1">
+                                        <span className="text-[10px] text-red-700 uppercase font-bold">Crates</span>
+                                        <input
+                                            type="number"
+                                            min="0"
+                                            className="w-full px-3 py-2 border border-red-200 rounded-md focus:ring-2 focus:ring-red-500"
+                                            value={eggStore.cracked_crates || ''}
+                                            onChange={(e) => setEggStore({ ...eggStore, cracked_crates: e.target.value })}
+                                        />
+                                    </div>
+                                    <div className="flex-1">
+                                        <span className="text-[10px] text-red-700 uppercase font-bold">Pieces</span>
+                                        <input
+                                            type="number"
+                                            min="0"
+                                            className="w-full px-3 py-2 border border-red-200 rounded-md focus:ring-2 focus:ring-red-500"
+                                            value={eggStore.cracked_pieces || ''}
+                                            onChange={(e) => setEggStore({ ...eggStore, cracked_pieces: e.target.value })}
+                                        />
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     )}
