@@ -102,6 +102,7 @@ export async function getSummaryForDate(date: string) {
                     feeds_eaten: Number(row[2]) || 0,
                     eggs_produced: Number(row[5]) || 0,
                     cracked_eggs: Number(row[6]) || 0,
+                    mortality_count: Number(row[7]) || 0,
                 };
             } else if (tab === "Egg Store") {
                 summary.eggStore = {

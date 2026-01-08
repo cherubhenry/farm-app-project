@@ -33,6 +33,7 @@ export async function GET(request: Request) {
         let total_eggs_produced = 0;
         let total_cracked_eggs = 0;
         let total_feeds_eaten = 0;
+        let total_mortality = 0;
 
         const roomDetails: any = {};
 
@@ -40,6 +41,7 @@ export async function GET(request: Request) {
             total_eggs_produced += data.eggs_produced;
             total_cracked_eggs += data.cracked_eggs;
             total_feeds_eaten += data.feeds_eaten;
+            total_mortality += data.mortality_count;
 
             // Convert pieces to Crates & Pieces for display
             roomDetails[roomName] = {
@@ -68,6 +70,7 @@ export async function GET(request: Request) {
                 pieces: total_eggs_produced % 30
             },
             total_cracked_eggs,
+            total_mortality,
             total_feeds_eaten,
             feed_in_store_adjusted,
             rooms: roomDetails,

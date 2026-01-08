@@ -67,79 +67,88 @@ export default function SummaryPage() {
                         <p>{error}</p>
                     </div>
                 ) : (
-                    <div className="space-y-8">
+                    <div className="space-y-6 md:space-y-8">
                         {/* Top Stats */}
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                            <div className="bg-gradient-to-br from-blue-600 to-blue-700 p-6 rounded-2xl shadow-lg text-white">
-                                <p className="text-blue-100 font-bold uppercase tracking-wider text-xs">Total Production</p>
-                                <div className="mt-2 flex items-baseline gap-2">
-                                    <span className="text-4xl font-black">{data?.total_eggs_display?.crates || 0}</span>
-                                    <span className="text-blue-100 font-medium">Crates</span>
-                                    <span className="text-2xl font-black ml-2">{data?.total_eggs_display?.pieces || 0}</span>
-                                    <span className="text-blue-100 font-medium whitespace-nowrap">Pieces</span>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+                            <div className="bg-gradient-to-br from-blue-600 to-blue-700 p-5 md:p-6 rounded-2xl shadow-lg text-white">
+                                <p className="text-blue-100 font-bold uppercase tracking-wider text-[10px] md:text-xs">Total Production</p>
+                                <div className="mt-2 flex items-baseline flex-wrap gap-x-2 gap-y-0">
+                                    <span className="text-3xl md:text-4xl font-black">{data?.total_eggs_display?.crates || 0}</span>
+                                    <span className="text-blue-100 font-medium text-sm md:text-base">Crates</span>
+                                    <span className="text-2xl md:text-2xl font-black ml-1">{data?.total_eggs_display?.pieces || 0}</span>
+                                    <span className="text-blue-100 font-medium text-xs md:text-sm">Pieces</span>
                                 </div>
-                                <div className="mt-4 pt-4 border-t border-blue-500/30">
-                                    <p className="text-xs text-blue-100 opacity-80">
-                                        Aggregated from all 6 rooms
-                                    </p>
-                                </div>
+                                <p className="mt-4 text-[10px] text-blue-100 opacity-70">Aggregated from all rooms</p>
                             </div>
 
-                            <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-                                <p className="text-gray-400 font-bold uppercase tracking-wider text-xs">Eggs in Store</p>
-                                <div className="mt-2 flex items-baseline gap-2">
-                                    <span className="text-4xl font-black text-gray-900">
-                                        {Math.floor((data?.eggStore?.eggs_in_store || 0) / 30)}
-                                    </span>
-                                    <span className="text-gray-500 font-medium">Crates</span>
-                                    <span className="text-2xl font-black text-gray-900 ml-2">
-                                        {(data?.eggStore?.eggs_in_store || 0) % 30}
-                                    </span>
-                                    <span className="text-gray-500 font-medium">Pieces</span>
+                            <div className="bg-white p-5 md:p-6 rounded-2xl shadow-sm border border-gray-100">
+                                <p className="text-gray-400 font-bold uppercase tracking-wider text-[10px] md:text-xs">Eggs in Store</p>
+                                <div className="mt-2 flex items-baseline flex-wrap gap-x-2 gap-y-0 text-gray-900">
+                                    <span className="text-3xl md:text-4xl font-black">{Math.floor((data?.eggStore?.eggs_in_store || 0) / 30)}</span>
+                                    <span className="text-gray-500 font-medium text-sm md:text-base">Crates</span>
+                                    <span className="text-2xl md:text-2xl font-black ml-1">{(data?.eggStore?.eggs_in_store || 0) % 30}</span>
+                                    <span className="text-gray-500 font-medium text-xs md:text-sm">Pieces</span>
                                 </div>
-                                <p className="mt-4 text-xs text-gray-400">Recorded during evening checkout</p>
+                                <p className="mt-4 text-[10px] text-gray-400">Evening checkout record</p>
                             </div>
 
-                            <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-                                <p className="text-gray-400 font-bold uppercase tracking-wider text-xs">Feed Balanced Stock</p>
+                            <div className="bg-white p-5 md:p-6 rounded-2xl shadow-sm border border-gray-100">
+                                <p className="text-gray-400 font-bold uppercase tracking-wider text-[10px] md:text-xs">Feed Balanced Stock</p>
                                 <div className="mt-2 flex items-baseline gap-2">
-                                    <span className={`text-4xl font-black ${data?.feed_in_store_adjusted < 5 ? 'text-red-600' : 'text-green-600'}`}>
+                                    <span className={`text-3xl md:text-4xl font-black ${data?.feed_in_store_adjusted < 5 ? 'text-red-600' : 'text-green-600'}`}>
                                         {data?.feed_in_store_adjusted || 0}
                                     </span>
-                                    <span className="text-gray-500 font-medium">Bags</span>
+                                    <span className="text-gray-500 font-medium text-sm md:text-base">Bags</span>
                                 </div>
-                                <p className="mt-4 text-xs text-gray-400">Store total - usage in all rooms</p>
+                                <p className="mt-4 text-[10px] text-gray-400">Adjusted for today's usage</p>
+                            </div>
+
+                            <div className={`p-5 md:p-6 rounded-2xl shadow-sm border border-gray-100 ${data?.total_mortality > 0 ? 'bg-red-50/50 border-red-100' : 'bg-white'}`}>
+                                <p className="text-gray-400 font-bold uppercase tracking-wider text-[10px] md:text-xs">Daily Mortality</p>
+                                <div className="mt-2 flex items-baseline gap-2">
+                                    <span className={`text-3xl md:text-4xl font-black ${data?.total_mortality > 0 ? 'text-red-600' : 'text-gray-900'}`}>
+                                        {data?.total_mortality || 0}
+                                    </span>
+                                    <span className="text-gray-500 font-medium text-sm md:text-base">Birds</span>
+                                </div>
+                                <p className="mt-4 text-[10px] text-gray-400">Sum of all room fatalities</p>
                             </div>
                         </div>
 
                         {/* Room Details Table */}
                         <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-                            <div className="p-6 border-b border-gray-50 flex justify-between items-center">
-                                <h3 className="font-bold text-gray-900 text-lg">Room-by-Room Breakdown</h3>
-                                <span className="px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-xs font-bold uppercase">Today's Data</span>
+                            <div className="p-4 md:p-6 border-b border-gray-50 flex justify-between items-center bg-gray-50/30">
+                                <h3 className="font-bold text-gray-900 text-sm md:text-lg">Room-by-Room Details</h3>
+                                <span className="px-2 md:px-3 py-1 bg-white border border-gray-200 text-gray-500 rounded-full text-[9px] md:text-xs font-bold uppercase">Daily breakdown</span>
                             </div>
                             <div className="overflow-x-auto">
-                                <table className="w-full text-left">
+                                <table className="w-full text-left min-w-[600px] md:min-w-full">
                                     <thead>
-                                        <tr className="bg-gray-50/50">
-                                            <th className="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-widest">Room</th>
-                                            <th className="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-widest text-right">Production (Crates)</th>
-                                            <th className="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-widest text-right">Production (Pieces)</th>
-                                            <th className="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-widest text-right">Consumption</th>
+                                        <tr className="bg-white border-b border-gray-50">
+                                            <th className="px-4 md:px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Room</th>
+                                            <th className="px-4 md:px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest text-right">Production (Crates)</th>
+                                            <th className="px-4 md:px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest text-right">Production (Pieces)</th>
+                                            <th className="px-4 md:px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest text-right">Feed Eaten</th>
+                                            <th className="px-4 md:px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest text-right">Mortality</th>
                                         </tr>
                                     </thead>
                                     <tbody className="divide-y divide-gray-50">
                                         {["Room 1", "Room 2", "Room 3", "Room 4", "Room 5", "Room 6"].map(room => (
-                                            <tr key={room} className="hover:bg-gray-50/30 transition-colors">
-                                                <td className="px-6 py-4 font-bold text-gray-900">{room}</td>
-                                                <td className="px-6 py-4 text-right font-medium text-blue-600">
+                                            <tr key={room} className="hover:bg-gray-50/50 transition-colors">
+                                                <td className="px-4 md:px-6 py-4 font-bold text-gray-900 text-sm md:text-base">{room}</td>
+                                                <td className="px-4 md:px-6 py-4 text-right font-semibold text-blue-600 text-sm md:text-base">
                                                     {data?.rooms[room]?.eggs_produced_display?.crates || 0}
                                                 </td>
-                                                <td className="px-6 py-4 text-right font-medium text-blue-500">
+                                                <td className="px-4 md:px-6 py-4 text-right font-medium text-blue-400 text-sm md:text-base">
                                                     {data?.rooms[room]?.eggs_produced_display?.pieces || 0}
                                                 </td>
-                                                <td className="px-6 py-4 text-right text-gray-900 font-medium">
-                                                    {data?.rooms[room]?.feeds_eaten || 0} <span className="text-gray-400 text-xs">bags</span>
+                                                <td className="px-4 md:px-6 py-4 text-right text-gray-700 font-medium text-sm md:text-base">
+                                                    {data?.rooms[room]?.feeds_eaten || 0}<span className="text-[10px] text-gray-400 ml-1">bags</span>
+                                                </td>
+                                                <td className="px-4 md:px-6 py-4 text-right font-bold text-sm md:text-base">
+                                                    <span className={data?.rooms[room]?.mortality_count > 0 ? 'text-red-600 bg-red-50 px-2 py-1 rounded' : 'text-gray-400'}>
+                                                        {data?.rooms[room]?.mortality_count || 0}
+                                                    </span>
                                                 </td>
                                             </tr>
                                         ))}
